@@ -2,83 +2,60 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-class Block {
-public:
-    string name;
-    Block* onTopOf;
-    Block(const string& n) : name(n), onTopOf(nullptr) {}
-
-    const string& getName() const {
-        return name;
-    }
-
-    Block* getOnTopOf() const {
-        return onTopOf;
-    }
-
-    void stackOn(Block* block) {
-        onTopOf = block;
-    }
-
-    void unstack() {
-        onTopOf = nullptr;
-    }
-};
-
 class BlockWorld {
 private:
-    unordered_map<string, Block*> blocks;
+    vector<string> blocks; // Vector to store block names
+    vector<int> onTopOf;   // Vector to store index of block on top of another (-1 for table)
 
 public:
-    Block* getBlock(const string& name) const {
-        auto it = blocks.find(name);
+    BlockWorld() {}
+
+    int getBlockIndex(const string& name) const {
+        auto it = find(blocks.begin(), blocks.end(), name);
         if (it != blocks.end())
-            return it->second;
-        return nullptr;
+            return distance(blocks.begin(), it);
+        return -1;
     }
 
     bool addBlock(const string& name) {
-        if (blocks.find(name) == blocks.end()) {
-            blocks[name] = new Block(name);
+        if (getBlockIndex(name) == -1) {
+            blocks.push_back(name);
+            onTopOf.push_back(-1); // Initialize block as being on the table
             return true;
         }
         return false; // Block with same name already exists
     }
 
-    void placeOn(Block* block, Block* onTopOf) {
-        block->stackOn(onTopOf);
+    void placeOn(const string& block, const string& onTopOf) {
+        int idxBlock = getBlockIndex(block);
+        int idxOnTopOf = (onTopOf == "table") ? -1 : getBlockIndex(onTopOf);
+        if (idxBlock != -1 && idxOnTopOf != -1) {
+            this->onTopOf[idxBlock] = idxOnTopOf;
+        }
     }
 
-    void removeBlock(Block* block) {
-        if (block) {
-            // Remove block and its references from the world
-            for (auto& entry : blocks) {
-                if (entry.second->getOnTopOf() == block)
-                    entry.second->unstack();
-            }
-            delete block;
+    void removeBlock(const string& block) {
+        int idxBlock = getBlockIndex(block);
+        if (idxBlock != -1) {
+            onTopOf.erase(onTopOf.begin() + idxBlock); // Remove block's position from onTopOf vector
+            blocks.erase(blocks.begin() + idxBlock); // Remove the block from the blocks vector
         }
     }
 
     void printWorld() const {
-        for (const auto& entry : blocks) {
-            cout << "Block " << entry.first;
-            if (entry.second->getOnTopOf() != nullptr) {
-                cout << " is on top of " << entry.second->getOnTopOf()->getName();
+        for (int i = 0; i < blocks.size(); ++i) {
+            cout << "Block " << blocks[i];
+            if (onTopOf[i] != -1) {
+                cout << " is on top of " << blocks[onTopOf[i]];
             } else {
                 cout << " is on the table";
             }
             cout << endl;
         }
-    }
-
-    ~BlockWorld() {
-        for (auto& entry : blocks)
-            delete entry.second;
-        blocks.clear();
     }
 };
 
@@ -89,18 +66,14 @@ int main() {
     world.addBlock("B");
     world.addBlock("C");
 
-    Block* blockA = world.getBlock("A");
-    Block* blockB = world.getBlock("B");
-    Block* blockC = world.getBlock("C");
-
-    world.placeOn(blockB, blockA);
-    world.placeOn(blockC, blockB);
+    world.placeOn("B", "A");
+    world.placeOn("C", "B");
 
     cout << "Initial State:" << endl;
     world.printWorld();
     cout << endl;
 
-    world.removeBlock(blockB);
+    world.removeBlock("B");
 
     cout << "State after removing Block B:" << endl;
     world.printWorld();
