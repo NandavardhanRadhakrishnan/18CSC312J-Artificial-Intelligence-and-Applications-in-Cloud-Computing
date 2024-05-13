@@ -1,18 +1,18 @@
 // DFS BFS
-
 #include <bits/stdc++.h>
 using namespace std;
-
 class Graph
 {
 public:
     map<int, bool> visited;
     map<int, list<int>> adj;
-
+    
+    
     void addEdge(int v, int w)
     {
         adj[v].push_back(w);
     }
+    
     
     void DFS(int v)
     {
@@ -23,7 +23,28 @@ public:
             if (!visited[*i])
                 DFS(*i);
     }
+
+
+    void BFS(int s)
+    {
+        queue<int> queue;
+        visited[s] = true;
+        queue.push(s);
+        while (!queue.empty())
+        {
+            s = queue.front();
+            cout << s << " ";
+            queue.pop();
+            for (auto i = adj[s].begin(); i != adj[s].end(); ++i)
+                if (!visited[*i])
+                {
+                    visited[*i] = true;
+                    queue.push(*i);
+                }
+        }
+    }
 };
+
 
 int main()
 {
@@ -36,6 +57,6 @@ int main()
     g.addEdge(3, 3);
     cout << "Following is Depth First Traversal"
             " (starting from vertex 2) \n";
-    g.DFS(2);
+    g.DFS(1);
     return 0;
 }

@@ -23,6 +23,7 @@ std::vector<std::tuple<int, int, int>> solutions() {
 
                                         if (send + more == money) {
                                             all_solutions.push_back(std::make_tuple(send, more, money));
+                                            return all_solutions;
                                         }
                                     }
                                 }
