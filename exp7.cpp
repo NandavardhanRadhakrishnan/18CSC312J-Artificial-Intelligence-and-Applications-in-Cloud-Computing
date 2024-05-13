@@ -1,4 +1,4 @@
-// unification and resolution (idts it is working)
+// unification and resolution (output is wrong)
 
 #include <iostream>
 #include <string>

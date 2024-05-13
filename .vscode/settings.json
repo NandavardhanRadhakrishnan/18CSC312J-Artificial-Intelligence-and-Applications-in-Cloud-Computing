@@ -3,6 +3,7 @@
         "compare": "cpp",
         "xstddef": "cpp",
         "xutility": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "iostream": "cpp"
     }
 }
