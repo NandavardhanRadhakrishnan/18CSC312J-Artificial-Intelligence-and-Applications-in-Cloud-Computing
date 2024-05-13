@@ -1,3 +1,5 @@
+// block world problem
+
 #include <iostream>
 #include <unordered_map>
 #include <string>
@@ -8,8 +10,8 @@ using namespace std;
 
 class BlockWorld {
 private:
-    vector<string> blocks; // Vector to store block names
-    vector<int> onTopOf;   // Vector to store index of block on top of another (-1 for table)
+    vector<string> blocks;
+    vector<int> onTopOf;
 
 public:
     BlockWorld() {}
@@ -24,10 +26,10 @@ public:
     bool addBlock(const string& name) {
         if (getBlockIndex(name) == -1) {
             blocks.push_back(name);
-            onTopOf.push_back(-1); // Initialize block as being on the table
+            onTopOf.push_back(-1); 
             return true;
         }
-        return false; // Block with same name already exists
+        return false; 
     }
 
     void placeOn(const string& block, const string& onTopOf) {
@@ -41,8 +43,8 @@ public:
     void removeBlock(const string& block) {
         int idxBlock = getBlockIndex(block);
         if (idxBlock != -1) {
-            onTopOf.erase(onTopOf.begin() + idxBlock); // Remove block's position from onTopOf vector
-            blocks.erase(blocks.begin() + idxBlock); // Remove the block from the blocks vector
+            onTopOf.erase(onTopOf.begin() + idxBlock); 
+            blocks.erase(blocks.begin() + idxBlock); 
         }
     }
 
