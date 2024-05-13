@@ -2,6 +2,7 @@
     "files.associations": {
         "compare": "cpp",
         "xstddef": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "random": "cpp"
     }
 }
