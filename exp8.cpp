@@ -19,14 +19,17 @@ public:
     Relationship(Person* parent, Person* child) : parent(parent), child(child) {}
 };
 
+
 vector<Person*> findSiblings(Person* person, vector<Relationship>& relationships) {
     vector<Person*> siblings;
-    for (const auto& rel : relationships) {
-        if (rel.parent == person) {
-            siblings.push_back(rel.child);
-        }
-        else if (rel.child == person) {
-            siblings.push_back(rel.parent);
+    for (auto& rel : relationships) {
+        if (rel.child == person) {
+            for (auto& otherRel : relationships) {
+                if (otherRel.parent == rel.parent && otherRel.child != rel.child) {
+                    siblings.push_back(otherRel.child);
+                }
+            }
+            break;
         }
     }
     return siblings;

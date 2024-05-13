@@ -1,5 +1,5 @@
 // minimax
-// tree rep as {root,l,r,ll,lr,rl,rr,....}
+// tree represented as {root,l,r,ll,lr,rl,rr,....}
 
 #include <bits/stdc++.h>
 using namespace std;
