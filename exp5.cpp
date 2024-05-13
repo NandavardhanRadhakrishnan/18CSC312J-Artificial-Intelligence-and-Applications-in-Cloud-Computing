@@ -29,12 +29,12 @@ void best_first_search(int actual_Src, int target, int n)
 		if (x == target)
 			break;
 
-		for (int i = 0; i < graph[x].size(); i++)
+		for (auto i : graph[x])
 		{
-			if (!visited[graph[x][i].second])
+			if (!visited[i.second])
 			{
-				visited[graph[x][i].second] = true;
-				pq.push(make_pair(graph[x][i].first, graph[x][i].second));
+				visited[i.second] = true;
+				pq.push(make_pair(i.first, i.second));
 			}
 		}
 	}
@@ -62,12 +62,12 @@ void astar_search(int actual_Src, int target, int n)
 		if (x == target)
 			break;
 
-		for (int i = 0; i < graph[x].size(); i++)
+		for (auto i : graph[x])
 		{
-			if (!visited[graph[x][i].second])
+			if (!visited[i.second])
 			{
-				visited[graph[x][i].second] = true;
-				pq.push(make_pair(graph[x][i].first + heuristic(graph[x][i].second, target), graph[x][i].second));
+				visited[i.second] = true;
+				pq.push(make_pair(i.first + heuristic(i.second, target), i.second));
 			}
 		}
 	}

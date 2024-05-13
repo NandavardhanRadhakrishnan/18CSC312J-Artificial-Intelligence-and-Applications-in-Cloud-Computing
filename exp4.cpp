@@ -1,6 +1,8 @@
 // DFS BFS
+
 #include <bits/stdc++.h>
 using namespace std;
+
 class Graph
 {
 public:
@@ -18,8 +20,7 @@ public:
     {
         visited[v] = true;
         cout << v << " ";
-        list<int>::iterator i;
-        for (i = adj[v].begin(); i != adj[v].end(); ++i)
+        for (auto i = adj[v].begin(); i != adj[v].end(); ++i)
             if (!visited[*i])
                 DFS(*i);
     }
