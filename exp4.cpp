@@ -20,9 +20,9 @@ public:
     {
         visited[v] = true;
         cout << v << " ";
-        for (auto i = adj[v].begin(); i != adj[v].end(); ++i)
-            if (!visited[*i])
-                DFS(*i);
+        for (auto i : adj[v])
+            if (!visited[i])
+                DFS(i);
     }
 
 
@@ -36,12 +36,13 @@ public:
             s = queue.front();
             cout << s << " ";
             queue.pop();
-            for (auto i = adj[s].begin(); i != adj[s].end(); ++i)
-                if (!visited[*i])
+            for (auto i : adj[s]){
+                if (!visited[i])
                 {
-                    visited[*i] = true;
-                    queue.push(*i);
+                    visited[i] = true;
+                    queue.push(i);
                 }
+            }
         }
     }
 };
@@ -58,6 +59,6 @@ int main()
     g.addEdge(3, 3);
     cout << "Following is Depth First Traversal"
             " (starting from vertex 2) \n";
-    g.DFS(1);
+    g.DFS(2);
     return 0;
 }
