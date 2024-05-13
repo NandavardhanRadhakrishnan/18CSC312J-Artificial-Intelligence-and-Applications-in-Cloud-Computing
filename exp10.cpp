@@ -1,5 +1,3 @@
-// block world problme (error)
-
 #include <iostream>
 #include <unordered_map>
 #include <string>
@@ -8,11 +6,9 @@
 using namespace std;
 
 class Block {
-private:
+public:
     string name;
     Block* onTopOf;
-
-public:
     Block(const string& n) : name(n), onTopOf(nullptr) {}
 
     const string& getName() const {
